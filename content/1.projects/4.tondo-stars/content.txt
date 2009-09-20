@@ -1,0 +1,10 @@
+page_title: The Test Project | Sol LeWitt's Portfolio
+
+page_description: The Test Project, designed by Name
+
+project_title: Tondo Stars
+
+project_date: 2002–
+
+project_description: 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.

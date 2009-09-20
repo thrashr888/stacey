@@ -1,5 +1,5 @@
-name: Name
+name: Sol LeWitt
 
-profession: Graphic Designer
+profession: Minimalist
 
-email: hi@yourdomain.com
+email: —

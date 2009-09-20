@@ -1,0 +1,10 @@
+page_title: The Test Project | Name's Graphic Design Portfolio
+
+page_description: The Test Project, designed by Name
+
+project_title: Forms Derived from a Cube
+
+project_date: 1991–
+
+project_description: 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.

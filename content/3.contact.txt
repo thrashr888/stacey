@@ -1,3 +1,8 @@
 page_title: Sol LeWitt's Portfolio
 
 page_description: A collection of Sol LeWitt's art
+
+title: Contact
+
+content:
+Sadly, Sol LeWitt passed away April, 2007.
