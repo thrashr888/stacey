@@ -1,6 +1,6 @@
-page_title: The Test Project | Name's Graphic Design Portfolio
+page_title: Incomplete Open Cubes, Sol Lewitt
 
-page_description: The Test Project, designed by Name
+page_description: Incomplete Open Cubes, by Sol Lewitt
 
 project_title: Incomplete Open Cubes
 

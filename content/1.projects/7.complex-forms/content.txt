@@ -1,6 +1,6 @@
-page_title: The Test Project | Name's Graphic Design Portfolio
+page_title: Complex Forms, Sol Lewitt
 
-page_description: The Test Project, designed by Name
+page_description: Complex Forms, by Sol Lewitt
 
 project_title: Complex Forms
 

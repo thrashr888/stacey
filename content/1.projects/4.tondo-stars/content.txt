@@ -1,6 +1,6 @@
-page_title: The Test Project | Sol LeWitt
+page_title: Tondo Stars, Sol LeWitt
 
-page_description: The Test Project, designed by Name
+page_description: Tondo Stars, by Sol Lewitt
 
 project_title: Tondo Stars
 
