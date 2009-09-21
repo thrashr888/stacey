@@ -1,4 +1,4 @@
-page_title: The Test Project | Sol LeWitt's Portfolio
+page_title: The Test Project | Sol LeWitt
 
 page_description: The Test Project, designed by Name
 

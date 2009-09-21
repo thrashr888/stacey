@@ -1,6 +1,6 @@
-page_title: Sol LeWitt's Portfolio
+page_title: Sol LeWitt
 
-page_description: A collection of Sol LeWitt's art
+page_description: A collection of Sol LeWitt's work
 
 title: About
 
