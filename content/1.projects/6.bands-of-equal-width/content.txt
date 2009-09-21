@@ -1,6 +1,6 @@
-page_title: The Test Project | Name's Graphic Design Portfolio
+page_title: Bands of Equal Width, Sol Lewitt
 
-page_description: The Test Project, designed by Name
+page_description: Bands of Equal Width, by Sol Lewitt
 
 project_title: Bands of Equal Width
 
