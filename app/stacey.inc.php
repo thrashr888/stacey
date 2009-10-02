@@ -35,8 +35,8 @@ class Renderer {
 			return true;
 		}
 		
-		// if they're looking for /projects/, redirect them to the index page
-		if(preg_match("/projects\/$/", $_SERVER["REQUEST_URI"])) {
+		// if they're looking for /work/, redirect them to the index page
+		if(preg_match("/work\/$/", $_SERVER["REQUEST_URI"])) {
 			header("HTTP/1.1 301 Moved Permanently");
 			header('Location: ../');
 			return true;
@@ -180,7 +180,7 @@ class Page {
 		$this->page = ($page_name) ? $page_name : "index";
 		$this->store_unclean_page_names('../content/');
 		$this->page_name_unclean = $this->unclean_page_name($this->page);
-		$this->projects_folder_unclean = $this->unclean_page_name('projects');
+		$this->projects_folder_unclean = $this->unclean_page_name('work');
 		$this->store_unclean_page_names('../content/'.$this->projects_folder_unclean);
 		
 		$this->template_file = $this->get_template_file();
@@ -268,7 +268,7 @@ class Project extends Page {
 	function __construct($page_name) {
 		$this->page = ($page_name) ? $page_name : "index";
 		$this->store_unclean_page_names('../content/');
-		$this->projects_folder_unclean = $this->unclean_page_name('projects');
+		$this->projects_folder_unclean = $this->unclean_page_name('work');
 		$this->store_unclean_page_names('../content/'.$this->projects_folder_unclean);
 		$this->page_name_unclean = $this->unclean_page_name($this->page);
 		$this->sibling_projects = $this->get_sibling_projects();
@@ -323,7 +323,7 @@ class MockProject extends Project {
 	function __construct($folder_name) {
 		$this->folder_name = $folder_name;
 		$this->store_unclean_page_names('../content/');
-		$this->projects_folder_unclean = $this->unclean_page_name('projects');
+		$this->projects_folder_unclean = $this->unclean_page_name('work');
 		$this->store_unclean_page_names('../content/'.$this->projects_folder_unclean);
 		$this->page_name_unclean = $this->unclean_page_name(preg_replace("/^\d+/", "", $folder_name));
 		$this->sibling_projects = $this->get_sibling_projects();
@@ -582,7 +582,7 @@ class ProjectsPartial extends Partial {
 		 			if(!is_dir($file) && file_exists($this->dir."/".$file."/content.txt")) {
 						$files[] = $file;
 						$vars = array(
-							"/@url/" => $this->page->link_path."projects/".preg_replace('/^\d+?\./', '', $file)."/",
+							"/@url/" => $this->page->link_path."work/".preg_replace('/^\d+?\./', '', $file)."/",
 							"/@thumb/" => $this->check_thumb($this->dir, $file)
 						);
 						$c = new ContentParser;
