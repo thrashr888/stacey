@@ -5,29 +5,22 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>@page_title</title>
 		<meta name="description" content="@page_description">
-		<link rel="stylesheet" href="./docs/css/screen.css" type="text/css" media="screen"> 
+		<link rel="stylesheet" href="../docs/css/screen.css" type="text/css" media="screen"> 
 	</head>
 	<body>
 		<div id="container">
 			<h1 class="col three">
-				<a href="./">@name</a>
+				<a href="../">@name</a>
 				<strong>@profession</strong>
 			</h1>
 			<em class="col three">@email</em>
 			<hr>
 			<ul id="navigation" class="col two">
-				<li><a href="./">Work</a></li>
-				@Pages
+				<li><a href="../">Work</a></li>
+				@Navigation
 			</ul>
 			<div id="content" class="col eight">
-				<p class="year col one">1970– 1979</p>
-				@70s
-				<p class="year col one">1980– 1989</p>
-				@80s
-				<p class="year col one">1990– 1999</p>
-				@90s
-				<p class="year col one">2000– 2007</p>
-				@00s
+				@Category_List
 			</div>
 			<hr>
 			<p id="footer" class="col four">&copy; All images are the Copyright of the Artist <em class="col three">by <a href="http://www.staceyapp.com">Stacey</a></em></p>
