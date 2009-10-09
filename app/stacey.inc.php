@@ -191,7 +191,7 @@ Class Renderer {
 	
 	function render() {
 		// if page doesn't contain a content file or have a matching template file, redirect to it or return 404
-		if(!$this->page || !$this->page->content_file || !$this->page->template_file) {
+		if(!$this->page || !$this->page->template_file) {
 			// if a static html page with a name matching the current route exists in the public folder, serve it 
 			if($this->page->public_file) echo file_get_contents($this->page->public_file);
 			// serve 404
@@ -199,22 +199,30 @@ Class Renderer {
 		} else {
 			// create new cache object
 			$cache = new Cache($this->page);
-			// check if cache needs to be expired
-			if($cache->check_expired()) {
-				// start output buffer
-				ob_start();
-					// render page
-					$t = new TemplateParser;
-					$c = new ContentParser;
-					echo $t->parse($this->page, $c->parse($this->page));
-					// cache folder is writable, write to it
-					if(is_writable('./cache')) $cache->write_cache();
-					else echo "\n".'<!-- Stacey('.Stacey::$version.'). -->';
-				// end buffer
-				ob_end_flush();
+			// check etags
+			header ('Etag: "'.$cache->hash.'"');
+			if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) == '"'.$cache->hash.'"') {
+				// local cache is still fresh, so return 304
+				header ("HTTP/1.0 304 Not Modified");
+				header ('Content-Length: 0');
 			} else {
-				// else buffer isn't expired, so use cache
-				echo file_get_contents($cache->cachefile)."\n".'<!-- Cached. -->';
+				// check if cache needs to be expired
+				if($cache->check_expired()) {
+					// start output buffer
+					ob_start();
+						// render page
+						$t = new TemplateParser;
+						$c = new ContentParser;
+						echo $t->parse($this->page, $c->parse($this->page));
+						// cache folder is writable, write to it
+						if(is_writable('./cache')) $cache->write_cache();
+						else echo "\n".'<!-- Stacey('.Stacey::$version.'). -->';
+					// end buffer
+					ob_end_flush();
+				} else {
+					// else cache hasn't expired, so use existing cache
+					echo file_get_contents($cache->cachefile)."\n".'<!-- Cached. -->';
+				}
 			}
 		}
 	}
@@ -310,8 +318,8 @@ Class Page {
 			$txts = Helpers::list_files('../content/'.$this->name_unclean, '/\.txt$/');
 			// if $txts contains a result, return it
 			if(count($txts) > 0) return '../content/'.$this->name_unclean.'/'.$txts[0];
-			else return false;
-		} else return false;
+			else return '../content/'.$this->name_unclean.'/none';
+		} else return '../content/'.$this->name_unclean.'/none';
 	}
 	
 	function get_public_file() {
@@ -405,9 +413,9 @@ Class PageInCategory extends Page {
 			$txts = Helpers::list_files('../content/'.$this->category_unclean.'/'.$this->name_unclean, '/\.txt$/');
 			// if $txts contains a result, return it
 			if(count($txts) > 0) return '../content/'.$this->category_unclean.'/'.$this->name_unclean.'/'.$txts[0];
-			else return false;
+			else return '../content/'.$this->category_unclean.'/'.$this->name_unclean.'/none';
 		}
-		else return false;
+		else return '../content/'.$this->category_unclean.'/'.$this->name_unclean.'/none';
 	}
 	
 	function get_template_file() {
@@ -445,9 +453,9 @@ Class MockPageInCategory extends PageInCategory {
 			$txts = Helpers::list_files('../content/'.$this->category_unclean.'/'.$this->folder_name, '/\.txt$/');
 			// if $txts contains a result, return it
 			if(count($txts) > 0) return '../content/'.$this->category_unclean.'/'.$this->folder_name.'/'.$txts[0];
-			else return false;
+			else return '../content/'.$this->category_unclean.'/'.$this->folder_name.'/none';
 		}
-		else return false;
+		else return '../content/'.$this->category_unclean.'/'.$this->folder_name.'/none';
 	}
 	
 }
@@ -528,7 +536,7 @@ Class ContentParser {
 		}
 		
 		// if the page is a PageInCategory, push pageincategory-specific variables
-		if(get_class($this->page) == 'PageInCategory') {
+		if(get_class($this->page) == 'PageInCategory' || get_class($this->page) == 'MockPageInCategory') {
 			$np = new NextPagePartial;
 			$pp = new PreviousPagePartial;
 			$replacement_pairs['/@Page_Number/'] = $this->page->i;
@@ -550,8 +558,8 @@ Class ContentParser {
 	function parse($page) {
 		// store page and parse its content file
 		$this->page = $page;
-		// store contents of content file
-		$text = file_get_contents($this->page->content_file);
+		// store contents of content file (if it exists, otherwise, pass back an empty string)
+		$text = (file_exists($this->page->content_file)) ? file_get_contents($this->page->content_file) : '';
 		// include shared variables for each page
 		$shared = (file_exists('../content/_shared.txt')) ? file_get_contents('../content/_shared.txt') : '';
 		// run preparsing rules to clean up content files (the newlines are added to ensure the first and last rules have their double-newlines to match on)
@@ -580,7 +588,7 @@ Class TemplateParser {
 								if(is_dir($dir.'/'.$file.'/'.$inner_file) && !preg_match('/^\./', $inner_file)) {
 									// strip leading digit and dot from filename (1.xx becomes xx)
 									$file_clean = preg_replace('/^\d+?\./', '', $file);
-									$categories[] = array(
+									$categories[$file] = array(
 										'name' => $file,
 										'name_clean' => $file_clean,
 										// look for a partial file matching the categories name, otherwise fall back to using the category partial
@@ -596,6 +604,8 @@ Class TemplateParser {
 				closedir($dh);
 			}
 		}
+		// sort categories in reverse-numeric order
+		krsort($categories);
 		return $categories;
 	}
 	
@@ -609,11 +619,18 @@ Class TemplateParser {
 		// constructs a partial containing all of the top level pages, excluding any categories and the index
 		$p = new PagesPartial;
 		
+		// construct a special variable which will hold all of the category lists
+		$partials['/@Category_Lists/'] = '';
 		// find all categories
 		$categories = $this->find_categories();
 		// category lists will become available as a variable as: '$.projects-folder' => @Projects_Folder
 		foreach($categories as $category) {
-			$partials['/@'.ucfirst(preg_replace('/-(.)/e', "'_'.strtoupper('\\1')", $category['name_clean'])).'/'] = $c->render($this->page, $category['name'], $category['partial_file']);
+			// store the output of the CategoryListPartial
+			$category_list = $c->render($this->page, $category['name'], $category['partial_file']);
+			// create a partial that matches the name of the category
+			$partials['/@'.ucfirst(preg_replace('/-(.)/e', "'_'.strtoupper('\\1')", $category['name_clean'])).'/'] = $category_list;
+			// append to the @Category_Lists variable
+			$partials['/@Category_Lists/'] .= $category_list;
 		}
 		// construct the rest of the special variables
 		$partials['/@Images/'] = $i->render($this->page);
@@ -682,6 +699,7 @@ Class CategoryListPartial extends Partial {
 		$html = '';
 		
 		// for each page within this category...
+		$files = array();
 		if(is_dir($this->dir)) {
 		 	if($dh = opendir($this->dir)) {
 		 		while (($file = readdir($dh)) !== false) {
@@ -731,6 +749,8 @@ Class NavigationPartial extends Partial {
 		$wrappers = $this->parse($this->partial_file);
 		
 		// collate navigation set
+		$files = array();
+		$file_vars = array();
 		if($dh = opendir($this->dir)) {
 			while (($file = readdir($dh)) !== false) {
 				// if file is a folder and is not /index, add it to the navigation list
@@ -787,6 +807,8 @@ Class PagesPartial extends Partial {
 		$wrappers = $this->parse($this->partial_file);
 		
 		// collate navigation set
+		$files = array();
+		$file_vars = array();
 		if($dh = opendir($this->dir)) {
 			while (($file = readdir($dh)) !== false) {
 				// if file is a folder and is not /index, add it to the navigation list
@@ -837,9 +859,10 @@ Class ImagesPartial extends Partial {
 		$wrappers = $this->parse($this->partial_file);
 		
 		// loop through directory looking for images
+		$files = array();
+		$file_vars = array();
 		if(is_dir($dir)) {
 		 	if($dh = opendir($dir)) {
-				$files = array();
 		 		while (($file = readdir($dh)) !== false) {
 					// if images isn't a thumb, add it to the files array
 		 			if(!preg_match('/^\./', $file) && preg_match('/\.(gif|jpg|png|jpeg)/i', $file) && !preg_match('/^thumb\./i', $file)) {
@@ -874,7 +897,7 @@ Class NextPagePartial extends Partial {
 	
 	function render($page_sibling) {
 		// replace html with @vars
-		$html = preg_replace(array_keys($page_sibling), array_values($page_sibling), file_get_contents($this->partial_file));
+		$html = (count($page_sibling) > 0) ? preg_replace(array_keys($page_sibling), array_values($page_sibling), file_get_contents($this->partial_file)) : '';
 		return $html;
 	}
 }
