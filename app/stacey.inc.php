@@ -2,7 +2,7 @@
 
 Class Stacey {
 
-	static $version = '1.0b';
+	static $version = '1.0';
 	
 	function __construct($get) {
 		$this->php_fixes();
@@ -138,6 +138,7 @@ Class Renderer {
 	
 	function is_category($name) {
 		// find folder name from $name
+		$dir = '';
 		$folders = Helpers::list_files('../content', '/^\d+?\.[^\.]+$/');
 		foreach($folders as $folder) {
 			if(preg_match('/'.$name.'$/', $folder)) {
@@ -302,10 +303,12 @@ Class Page {
 	}
 	
 	function get_template_file() {
+		// check folder exists, if not, return 404
+		if(!$this->name_unclean) return false;
 		// find the name of the text file
 		preg_match('/\/([^\/]+?)\.txt/', $this->content_file, $template_name);
 		// if template exists, return it
-		if(file_exists('../templates/'.$template_name[1].'.html')) return '../templates/'.$template_name[1].'.html';
+		if(!empty($template_name) && file_exists('../templates/'.$template_name[1].'.html')) return '../templates/'.$template_name[1].'.html';
 		// return content.html as default template (if it exists)
 		elseif(file_exists('../templates/content.html')) return '../templates/content.html';
 		else return false;
@@ -343,10 +346,12 @@ Class Category extends Page {
 	}
 	
 	function get_template_file() {
+		// check folder exists, if not, return 404
+		if(!$this->name_unclean) return false;
 		// find the name of the text file
 		preg_match('/\/([^\/]+?)\.txt/', $this->content_file, $template_name);
 		// if template exists, return it
-		if(file_exists('../templates/'.$template_name[1].'.html')) return '../templates/'.$template_name[1].'.html';
+		if(!empty($template_name) && file_exists('../templates/'.$template_name[1].'.html')) return '../templates/'.$template_name[1].'.html';
 		// return category.html as default template (if it exists)
 		elseif(file_exists('../templates/category.html')) return '../templates/category.html';
 		else return false;
@@ -419,10 +424,12 @@ Class PageInCategory extends Page {
 	}
 	
 	function get_template_file() {
+		// check folder exists, if not, return 404
+		if(!$this->name_unclean) return false;
 		// find the name of the text file
 		preg_match('/\/([^\/]+?)\.txt/', $this->content_file, $template_name);
 		// if template exists, return it
-		if(file_exists('../templates/'.$template_name[1].'.html')) return '../templates/'.$template_name[1].'.html';
+		if(!empty($template_name) && file_exists('../templates/'.$template_name[1].'.html')) return '../templates/'.$template_name[1].'.html';
 		// return page-in-category.html as default template (if it exists)
 		elseif(file_exists('../templates/page-in-category.html')) return '../templates/page-in-category.html';
 		else return false;
@@ -754,9 +761,9 @@ Class NavigationPartial extends Partial {
 		if($dh = opendir($this->dir)) {
 			while (($file = readdir($dh)) !== false) {
 				// if file is a folder and is not /index, add it to the navigation list
-				if(!preg_match('/^\./', $file) && !preg_match('/index/', $file) && !preg_match('/^_/', $file)) {
+				if(!preg_match('/^\./', $file) && !preg_match('/index/', $file) && !preg_match('/^_/', $file) && !preg_match('/\.txt$/', $file)) {
 					$files[] = $file;
-					$file_name_clean = preg_replace(array('/^\d+?\./', '/\.txt/'), '', $file);
+					$file_name_clean = preg_replace('/^\d+?\./', '', $file);
 					// store the url and name of the navigation item
 					$file_vars[] = array(
 						'/@url/' => $this->page->link_path.$file_name_clean.'/',
@@ -812,11 +819,11 @@ Class PagesPartial extends Partial {
 		if($dh = opendir($this->dir)) {
 			while (($file = readdir($dh)) !== false) {
 				// if file is a folder and is not /index, add it to the navigation list
-				if(!preg_match('/^\./', $file) && !preg_match('/index/', $file) && !preg_match('/^_/', $file)) {
+				if(!preg_match('/^\./', $file) && !preg_match('/index/', $file) && !preg_match('/^_/', $file) && !preg_match('/\.txt$/', $file)) {
 					// check if this folder contains inner folders - if it does, then it is a category and should be excluded from this list
 					if(!$this->is_category($this->dir.'/'.$file)) {
 						$files[] = $file;
-						$file_name_clean = preg_replace(array('/^\d+?\./', '/\.txt/'), '', $file);
+						$file_name_clean = preg_replace('/^\d+?\./', '', $file);
 						// store the url and name of the navigation item
 						$file_vars[] = array(
 							'/@url/' => $this->page->link_path.$file_name_clean.'/',
