@@ -1,9 +1,9 @@
-page_title: Sol LeWitt
+page_title: Name's Graphic Design Portfolio
 
-page_description: A collection of Sol LeWitt's work
+page_description: A collection of Name's graphic design work
 
-title: About
+title: About Name
 
-content:
-Sol LeWitt (September 9, 1928 - April 8, 2007) was an American artist linked to various movements, including Conceptual art and Minimalism. LeWitt rose to fame in the late 1960s with his wall drawings and "structures" (a term he preferred instead of "sculptures") but was prolific in a wide range of media including drawing, printmaking, and painting.
-He has been the subject of hundreds of solo exhibitions in museums and galleries around the world since 1965. His prolific two and three-dimensional work ranges from wall drawings (over 1200 of which have been executed) to hundreds of works on paper extending to structures in the form of towers, pyramids, geometric forms, and progressions. These works range in size from gallery-sized installations to monumental outdoor pieces. Sol LeWitt’s frequent use of open, modular structures originates from the cube, a form that influenced the artist’s thinking from the time that he first became an artist.
+content: 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et mauris eu magna convallis cursus. Pellentesque a justo nisl. Duis vel velit at libero ultricies consectetur. Ut sem libero, ornare in ullamcorper eget, molestie sit amet tellus. Aenean auctor porttitor consectetur. Aliquam erat volutpat. Vestibulum vulputate, erat a eleifend consequat, ipsum augue tincidunt sem, ac aliquet nibh magna nec nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum mattis tellus nec tortor blandit a tempor odio mollis. 
+Nam ligula purus, fringilla ut accumsan non, sagittis id mi. Donec risus felis, hendrerit quis rhoncus egestas, laoreet non mi. Fusce in lorem non ipsum gravida lobortis a ut justo. Nam varius aliquet velit id viverra. Nunc bibendum mi ut ipsum blandit ultrices. Donec justo metus, varius id iaculis sed, ultricies lobortis eros. Curabitur sapien tortor, tempus sed varius sit amet, tempus a dui. Donec pharetra nibh et risus tincidunt molestie. Vivamus luctus posuere quam. Aliquam erat volutpat. Vivamus a neque at turpis hendrerit egestas quis vitae nisl.

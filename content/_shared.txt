@@ -1,5 +1,5 @@
-name: Sol LeWitt
+name: Name
 
-profession: Artist
+profession: Graphic Designer
 
-email: Collected Works–
+email: hi@yourdomain.com

@@ -1,8 +1,0 @@
-page_title: Sol LeWitt
-
-content: A collection of Sol LeWitt's work
-
-title: Contact
-
-content:
-Sadly, Sol LeWitt passed away April, 2007.<br>He is survived by a wife, Carol, and two daughters.

@@ -1,3 +1,3 @@
-page_title: Sol LeWitt
+page_title: Name's Graphic Design Portfolio
 
-content: A collection of Sol LeWitt's work
+page_description: A collection of Name's graphic design work
