@@ -51,37 +51,3 @@ div#images img { margin: 0px 0px 10px; }
 
 p#footer { margin: 0px 0px 0px 320px; display: inline; }
 p#footer em { display: block; }
-
-/* 
-
-  old 
-	
-
-
-ul li { margin: 0px 0px 3px; }
-ul#navigation, ul.projects { list-style: none; padding: 0px; margin: 0px; }
-ul#navigation { margin: 10px 0px 0px 20px; }
-ul#navigation li, ul.projects li { clear: both; }
-ul.projects li { float: left; padding: 0px 0px 8px; }
-ul#navigation ul { display: none; }
-
-p.date, p.year { padding: 14px 20px 0px 0px; clear: both; }
-
-div.description p { clear: both; }
-div.description h2 { padding: 0px 0px 15px; }
-
-div#images { clear: both; padding: 30px 0px 0px 70px; }
-div.description div#images { padding: 0px 0px 0px 0px; }
-div#images img { margin: 0px 0px 10px; }
-p#gallery-count { margin: 2px 20px 0px 0px; }
-p#gallery-count span { margin: -1px 0px 0px; display: block; }
-div#project-navigation { margin: 0px 0px 0px 20px; }
-div#project-navigation p, div#gallery-navigation p { margin: 0px 0px 1px; }
-
-div#image-wrapper { overflow: hidden; width: 560px; }
-div#image-wrapper div#image-holder { width: 100000000px; }
-div#image-wrapper div#image-holder div.image { float: left; width: 560px; }
-
-img.project-thumb { padding: 0px 10px 5px 0px; float: left; display: none; }
-
-*/
