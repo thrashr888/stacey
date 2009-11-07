@@ -47,7 +47,9 @@ div#navigation ul#pages { margin: 30px 0px 0px; }
 
 div#content { margin: 20px 0px 0px 20px; }
 
-div#images { clear: both; padding: 30px 0px 0px 60px; }
+div#images, div#media { clear: both; padding: 30px 0px 0px 60px; }
+div.media { margin: 0px 0px 10px; }
+div#media div#images { padding: 0px; }
 div.home div#images { padding: 0px 0px 0px 60px; }
 div.description div#images { padding: 0px 0px 0px 0px; }
 
