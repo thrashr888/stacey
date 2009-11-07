@@ -51,8 +51,12 @@ div#content ul.project-list li { margin: 0px 20px -1px 0px; float: left; }
 ul.project-list div.thumbnail a { border: 0px; }
 ul.project-list div.summary { margin: 0px 0px 0px 20px; }
 
-h2.title, div#content p.category, div#content ul.project-list li, div.description, p.para, div#images { border-top: 1px solid #ccc; padding: 20px 0px 0px; }
+h2.title, div#content p.category, div#content ul.project-list li, div.description, p.para, div#images, div#media { border-top: 1px solid #ccc; padding: 20px 0px 0px; }
 div#content ul.project-list li { border-bottom: 1px solid #ccc; padding: 20px 0px; }
+
+div#media { overflow: hidden; }
+div.media { margin: 0px 0px 10px; }
+div#media div#images { padding: 0px; }
 
 div#content div.description { margin: 0px 0px 0px 20px; }
 div.description div#images { margin: 0px 0px 10px; border: 0px; padding: 0px; }
