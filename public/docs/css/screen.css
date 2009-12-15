@@ -60,5 +60,7 @@ div.media { margin: 0px 0px 10px; }
 div#content div.description { margin: 0px 0px 0px 20px; }
 div.description div#media { margin: 0px 0px 10px; border: 0px; padding: 0px; }
 
-p#footer { margin: 0px 0px 0px 340px; display: inline; }
+p#footer { margin: 0px 0px 0px 340px; display: inline; line-height: 1.4; }
 p#footer em { display: block; }
+
+a.atom-rss { margin: 0px 0px 0px 6px; padding: 2px 3px 0px; font-size: 0.93em; letter-spacing: 0.08em; background: #ddd; }
