@@ -1,7 +1,3 @@
-page_title: The Test Project | Name's Graphic Design Portfolio
-
-page_description: The Test Project, designed by Name
-
 title: The Test Project 1
 
 date: 2009, Jan–

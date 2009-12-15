@@ -4,13 +4,12 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>@page_title</title>
-		<meta name="description" content="@page_description">
-		<link rel="stylesheet" href="../docs/css/screen.css" type="text/css" media="screen"> 
+		<link rel="stylesheet" href="@root_path/docs/css/screen.css" type="text/css" media="screen"> 
 	</head>
 	<body>
 		<div id="container">
 			<h1 class="col two">
-				<a href="../">@name</a>
+				<a href="@root_path/">@name</a>
 				<em>@profession</em>
 			</h1>
 			<h2 class="col two">
@@ -20,7 +19,7 @@
 			<p class="col six"><em>@Pages</em></p>
 			<hr>
 			<div id="content" class="home col eleven">
-				@Category_List
+				:category_list
 			</div>
 			<hr>
 			<p id="footer" class="col six">&copy; Copyright @name @Year<br>

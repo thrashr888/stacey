@@ -56,10 +56,9 @@ div#content ul.project-list li { border-bottom: 1px solid #ccc; padding: 20px 0p
 
 div#media { overflow: hidden; }
 div.media { margin: 0px 0px 10px; }
-div#media div#images { padding: 0px; }
 
 div#content div.description { margin: 0px 0px 0px 20px; }
-div.description div#images { margin: 0px 0px 10px; border: 0px; padding: 0px; }
+div.description div#media { margin: 0px 0px 10px; border: 0px; padding: 0px; }
 
 p#footer { margin: 0px 0px 0px 340px; display: inline; }
 p#footer em { display: block; }
