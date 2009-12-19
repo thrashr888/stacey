@@ -9,8 +9,10 @@ Class Helpers {
 		}
 		$paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
 		$files = glob($path . $pattern, $flags);
-		foreach ($paths as $p) $files = array_merge($files, self::rglob($pattern, $flags, $p . '/'));
-		return $files;
+		if(is_array($paths)) {
+		  foreach ($paths as $p) $files = array_merge($files, self::rglob($pattern, $flags, $p . '/'));
+		}
+		return is_array($files) ? $files : array();
 	}
 	
 	static function sort_by_length($a,$b){
@@ -47,9 +49,8 @@ Class Helpers {
 	}
 
 	static function list_files($dir, $regex, $folders_only = false) {
-		if(!is_dir($dir)) return array();
 		$glob = ($folders_only) ? glob($dir."/*", GLOB_ONLYDIR) : glob($dir."/*");
-		if(!$glob) return array();
+		$glob = is_array($glob) ? $glob : array();
 		# loop through each glob result and push it to $dirs if it matches the passed regexp
 		$files = array();
 		foreach($glob as $file) {
