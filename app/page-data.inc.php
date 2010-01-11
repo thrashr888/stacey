@@ -18,7 +18,7 @@ Class PageData {
 			if(isset($keys[$keyIndexes[$file_path] + 1])) $neighbors[] = $keys[$keyIndexes[$file_path] + 1];
 			else $neighbors[] = $keys[0];
 		}
-		return !empty($neighbors) ? $neighbors : array(array(), array());
+		return !empty($neighbors) ? $neighbors : array(false, false);
 	}
 	
 	static function get_parent($file_path, $url) {
@@ -154,6 +154,7 @@ Class PageData {
 			$neighboring_siblings = self::extract_closest_siblings($page->data['$siblings'], $page->file_path);
 		$page->previous_sibling = array($neighboring_siblings[0]);
 		$page->next_sibling = array($neighboring_siblings[1]);
+		
 		# $children
 		$page->children = Helpers::list_files($page->file_path, '/^\d+?\./', true);
 	}
@@ -175,22 +176,36 @@ Class PageData {
 		
 	}
 	
-	static function create($page) {
-		# store contents of content file (if it exists, otherwise, pass back an empty string)
+	static function create_textfile_vars($page) {
+	  # store contents of content file (if it exists, otherwise, pass back an empty string)
 		$content_file_path = $page->file_path.'/'.$page->template_name.'.txt';
 		$text = (file_exists($content_file_path)) ? file_get_contents($content_file_path) : '';
+    
 		# include shared variables for each page
 		$shared = (file_exists('./content/_shared.txt')) ? file_get_contents('./content/_shared.txt') : '';
-		# run preparsing rules to clean up content files (the newlines are added to ensure the first and last rules have their double-newlines to match on)
-		$parsed_text = ContentParser::parse("\n\n".$text."\n\n".$shared."\n\n");
+
+		# Remove UTF-8 BOM and marker character in input, if present.
+    $merged_text = preg_replace('{^\xEF\xBB\xBF|\x1A}', '', array($shared, $text));
+
+    # merge shared content into text
+		$text = "\n".$merged_text[0]."\n-\n".$merged_text[1]."\n-\n";
 		
 		# pull out each key/value pair from the content file
-		preg_match_all('/[\w\d_-]+?:[\S\s]*?\n\n/', $parsed_text, $matches);
-		foreach($matches[0] as $match) {
-			$colon_split = explode(':', $match);
-			# store page variables within Page::data
-			$page->$colon_split[0] = trim($colon_split[1]);
+		preg_match_all('/(?<=\n)([a-z\d_\-]+?:[\S\s]*?)\n\s*?-\s*?\n/', $text, $matches);
+		
+		foreach($matches[1] as $match) {
+			# split the string by the first colon
+			$colon_split = explode(':', $match, 2);
+			# set a variable with a name of 'key' on the page with a value of 'value' 
+			$page->$colon_split[0] = 
+			  # if the 'value' contains a newline character, parse it as markdown
+			  (strpos($colon_split[1], "\n") === false) ? trim($colon_split[1]) : Markdown(trim($colon_split[1]));
 		}
+	}
+	
+	static function create($page) {
+		# set vars created within the text file
+		self::create_textfile_vars($page);
 		
 		# create each of the page-specfic helper variables
 		self::create_collections($page);
