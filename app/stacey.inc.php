@@ -120,7 +120,11 @@ Class Stacey {
 		$this->render($page);
 	}
 	
+<<<<<<< HEAD:app/stacey.inc.php
 	function __construct($get, $options = array()) {
+=======
+	function __construct($get) {
+>>>>>>> 8f2069eb000d9ab19352470215e6515722af4a75:app/stacey.inc.php
 	  self::$options = array_merge(self::$options, $options);
     
 		# sometimes when PHP release a new version, they do silly things - this function is here to fix them
