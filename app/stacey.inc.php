@@ -2,7 +2,11 @@
 
 Class Stacey {
 	
-	static $version = '2.0.1';
+	static $version = '2.0.1',
+	       $options = array(
+           'debug' => false,
+           'cache' => true
+      	 );
 		
 	function handle_redirects() {
 		# rewrite any calls to /index or /app back to /
@@ -79,7 +83,9 @@ Class Stacey {
 		# if etag is still fresh, return 304 and don't render anything
 		if(!$this->etag_expired($cache)) return;
 		# if cache has expired
-		if($cache->expired()) {
+		if(!self::$options['cache']) {
+		  echo $page;
+		} elseif($cache->expired()) {
 			# render page & create new cache
 			echo $cache->create($page);
 		} else {
@@ -115,6 +121,8 @@ Class Stacey {
 	}
 	
 	function __construct($get) {
+	  self::$options = array_merge(self::$options, $options);
+    
 		# sometimes when PHP release a new version, they do silly things - this function is here to fix them
 		$this->php_fixes();
 		# it's easier to handle some redirection through php rather than relying on a more complex .htaccess file to do all the work
