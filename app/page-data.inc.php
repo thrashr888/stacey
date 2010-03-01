@@ -91,7 +91,7 @@ Class PageData {
 	  # create an array of files for each folder named _*
 	  foreach(Helpers::list_files($file_path, '/_.+$/', true) as $filename => $file_path) {
 	    # select all files from within the folder
-	    foreach(Helpers::list_files($file_path, '/\.[\w\d]+?$/', false) as $asset_name => $asset_path) {
+	    foreach(Helpers::list_files($file_path, '/(?<!thumb|_lge|_sml)\.[\w\d]+?$/', false) as $asset_name => $asset_path) {
 	      # if the returned file is not a folder, push it into the appropriate asset key
 	      if(!is_dir($asset_path)) $asset_collections[$filename][$asset_name] = $asset_path;
 	    }
