@@ -138,6 +138,9 @@ Class PageData {
 		$page->is_last = $page->data['@index'] == $page->data['@siblings_count'];
 		# @is_first
 		$page->is_first = $page->data['@index'] == 1;
+		
+		# @debug
+		$page->debug = Stacey::$options['debug'];
 	}
 	
 	static function create_collections($page) {

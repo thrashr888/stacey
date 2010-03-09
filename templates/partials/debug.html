@@ -1,0 +1,20 @@
+if @debug do
+  <div class="stacey-debug" style="position: fixed; bottom: 0; right: 0;">
+    <a onclick="$(this).next().toggle();" href="javascript:void(0);" style="color: red; margin: 1em 0.5em;"><strong>&micro;</strong></a>
+    <p class="stacey-debug-data" style="margin: 0; padding: 1em; display: none; background-color: #FFF; -moz-opacity: 0.4; opacity: 0.4; filter: alpha(opacity=40); border: grey;">
+    <strong>Stacey:</strong><br />
+    root_path: @root_path<br />
+    url: @url<br />
+    permalink: @permalink<br />
+    slug: @slug<br />
+    page_name: @page_name<br />
+    index: @index<br />
+    current_year: @current_year<br />
+    domain_name: @domain_name<br />
+    base_url: @base_url<br />
+    site_updated: @site_updated<br />
+    updated: @updated<br />
+    stacey_version: @stacey_version
+    </p>
+  </div>
+endif
